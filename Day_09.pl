@@ -154,12 +154,13 @@ sub find_largest_inside_area {
         my $p1 = $_[$i];
         for my $j ($i + 1..$#_) {
             my $p2 = $_[$j];
+            my $area = (abs($p1->[0] - $p2->[0]) + 1) * (abs($p1->[1] - $p2->[1]) + 1);
+            next if $area <= $result;
             next if has_vertex_inside_rectangle(\@_, \@x_sorted, $i, $j);
             next if !is_inside_figure(\@edges, $p1->[0], $p2->[1]);
             next if !is_inside_figure(\@edges, $p2->[0], $p1->[1]);
             next if is_dissected_by_an_edge(\@edges, $p1, $p2);
-            my $area = (abs($p1->[0] - $p2->[0]) + 1) * (abs($p1->[1] - $p2->[1]) + 1);
-            $result = $area if $area > $result;
+            $result = $area;
         }
     }
     return $result;
